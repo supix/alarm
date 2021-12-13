@@ -45,7 +45,6 @@ class TestAlarm(unittest.TestCase):
         self.assertFalse(self.a.isRinging())
 
     def test_off_alarm_detecting_motion_does_not_ring(self):
-        self.a.deactivate()
         self.a.motionDetected()
         self.assertFalse(self.a.isRinging())
 
@@ -91,7 +90,6 @@ class TestAlarm(unittest.TestCase):
         self.assertTrue(self.a.isRinging())
 
     def test_off_alarm_does_not_ring_after_three_motion_detections(self):
-        self.a.deactivate()
         self.a.motionDetected()
         self.a.motionDetected()
         self.a.motionDetected()
@@ -103,3 +101,22 @@ class TestAlarm(unittest.TestCase):
         self.a.deactivate()
         self.a.motionDetected()
         self.assertFalse(self.a.isRinging())
+
+    def test_an_off_alarm_deactivated_raises_an_error(self):
+        self.assertRaises(Exception, self.a.deactivate)
+
+    def test_an_on_alarm_activated_raises_an_error(self):
+        self.a.activate()
+        self.assertRaises(Exception, self.a.activate)
+
+    def test_a_ringing_alarm_activated_raises_an_error(self):
+        self.a.activate()
+        self.a.motionDetected()
+        self.assertRaises(Exception, self.a.activate)
+
+    def test_an_active_quiet_alarm_raises_an_error_on_reset(self):
+        self.a.activate()
+        self.assertRaises(Exception, self.a.reset)
+
+    def test_an_inactive_quiet_alarm_raises_an_error_on_reset(self):
+        self.assertRaises(Exception, self.a.reset)
