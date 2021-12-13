@@ -1,19 +1,33 @@
 class Alarm:
+    def __init__(self):
+        self.active = False
+        self.ringing = False
+
     def activate(self):
-        pass
+        if self.active:
+            raise Exception('alarm is already active')
+
+        self.active = True
 
     def deactivate(self):
-        pass
+        if not self.active:
+            raise Exception('alarm is already inactive')
+
+        self.active = False
+        self.ringing = False
     
     def reset(self):
-        pass
+        if not self.ringing:
+            raise Exception('alarm is not ringing')
+
+        self.ringing = False
     
     def motionDetected(self):
-        pass
+        if self.active:
+            self.ringing = True
     
     def isActive(self):
-        pass
+        return self.active
     
     def isRinging(self):
-        pass
-    
+        return self.ringing
